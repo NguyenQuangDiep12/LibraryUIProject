@@ -1,15 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
-import { authApi } from "../apis/apis";
-import { getPasswordStrength } from "../utils/helpers";
+import { authApi } from "../../apis/apis";
+import { getPasswordStrength } from "../../utils/helpers";
 
 export default function RegisterPage(){
   const navigate = useNavigate();
   const { login } = useAuth();
 
   // Quan ly du lieu form va du lieu
-  const [formData, setFormData] = new useState({
+  const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
@@ -76,7 +76,7 @@ export default function RegisterPage(){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!validateForm){
+    if(!validateForm()){
       return;
     }
 

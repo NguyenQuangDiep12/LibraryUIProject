@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext"
-import { authApi } from "../apis/apis";
-import { Role } from "../constants/constants"
+import { useAuth } from "../../contexts/AuthContext";
+import { authApi } from "../../apis/apis";
+import { Role } from "../../constants/constants";
+import ForgotPassword from "../../components/ForgotPassword";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [openForgotModal, setOpenForgotModal] = useState(false);
 
   // Ham bat su kien khi nguoi dung go phim
   const handleChange = (e) => {
@@ -75,7 +77,15 @@ export default function LoginPage() {
       }
     }catch(err){
       // toast err.message || Dang nhap that bai
-      console.log(err || "Dang nhap khong thanh cong!");
+      switch(err?.statusCode){
+        case 401: 
+          setError({ general: err.message }); // "Email hoac mat khau khong dung"
+        case 403: 
+          setError({ general: err.message }); // Tai khoan da bi khoa
+        default: 
+          setError({ general: err.message }); // 500: Error Server
+      }
+
     }finally{
       setIsSubmitting(false);
     }
@@ -99,6 +109,7 @@ export default function LoginPage() {
           onChange={handleChange}
           error={error.email} 
         />
+        {error.email && (<div className="invalid-feedback d-block">{error.email}</div>)}
         <label className="form-label mb-1 fw-medium text-secondary">Password:</label>
         <input 
           label="Mật khẩu" 
@@ -108,7 +119,7 @@ export default function LoginPage() {
           onChange={handleChange}
           error={error.password} 
         />
-
+        {error.password && (<div className="invalid-feedback d-block">{error.password}</div>)}
         <label className="d-flex align-items-center gap-2 small text-secondary">
           <input 
             type="checkbox" 
@@ -128,9 +139,19 @@ export default function LoginPage() {
       </form>
 
       <div className="mt-4 d-flex flex-column gap-2 text-center small">
-        <Link to="/forgot-password" className="d-block text-primary text-decoration-none">
-          Quên mật khẩu?
-        </Link>
+        {/**Mo Forgot Modal*/}
+        <div className="text-end my-2">
+          <button
+            type="button"
+            onClick={() => setOpenForgotModal(true)}
+            className="btn btn-link p-0 small text-decoration-none fw-medium"
+          >
+            Quển mật khẩu?
+          </button>
+        </div>
+
+        {/**Them component modal khi quen mat khau */}
+        <ForgotPassword show={openForgotModal} onClose={() => setOpenForgotModal(false)}/>
         <p className="text-secondary mb-0">
           Chưa có tài khoản?{' '}
           <Link to="/register" className="fw-medium text-primary text-decoration-none">
