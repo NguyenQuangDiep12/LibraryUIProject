@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { authApi } from "../../apis/apis";
 import { getPasswordStrength } from "../../utils/helpers";
+import { useToast } from "../../contexts/ToastContext";
 
 export default function RegisterPage(){
   const navigate = useNavigate();
@@ -16,12 +17,12 @@ export default function RegisterPage(){
     password: '',
     confirmPassword: ''
   });
-
   const [error, setError] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   // Theo doi do manh yeu cua mat khau
   const strengthPassword = getPasswordStrength(formData.password);
+
+  const { showToast } = useToast();
 
   // Ham bat su kien thay doi du lieu o nhap du lieu
   const handleChange = (e) => {
@@ -50,7 +51,7 @@ export default function RegisterPage(){
 
     if(!formData.email){
       newError.email = 'Vui long nhap email!';
-    }else if(!regex.test(newError.email)){
+    }else if(!regex.test(formData.email)){
       newError.email = 'Email khong hop le!';
     }
 
@@ -79,7 +80,7 @@ export default function RegisterPage(){
     if(!validateForm()){
       return;
     }
-
+    setError(""); // reset error neu co du lieu
     setIsSubmitting(true);
 
     try{
@@ -89,10 +90,29 @@ export default function RegisterPage(){
       if(result.success){
         login(result.data);
         // toast sucess (dang ky thanh cong!)
-        navigate('/');
+        showToast('Đăng ký thành công! đang chuyển hướng', 'SUCCESS');
+        navigate('/login');
       }
     }catch(err){
+      let errorMsg = '';
       // toast error = (error.message || 'Dang ky that bai')
+      switch(err?.statusCode){
+        case 400:
+          // Lỗi validate input (email sai format, password < 6 ký tự...)
+          errorMsg = err?.message || 'Thông tin đăng nhập không hợp lệ!';
+          break;
+        case 409:
+          errorMsg = err?.message || 'Email đã tồn tại!';
+          break;
+        case 404: 
+          errorMsg = err?.message || 'Không tìm thấy vai trò người đọc!';
+          break;
+        default:
+          errorMsg = err?.message || 'Lỗi hệ thống vui lòng kiểm tra lại!';
+          break;
+      }
+      // Them toast gui loi nguoi dung
+      showToast(errorMsg, 'DANGER');
     }finally{
       setIsSubmitting(false);
     }
@@ -113,8 +133,10 @@ export default function RegisterPage(){
             name="fullName" 
             value={formData.fullName} 
             onChange={handleChange} 
-            error={error.fullName} 
           />
+
+          {error.fullName && ( <div className="text-danger small">{error.fullName}</div>)}
+
           <label className="form-label mb-1 fw-medium text-secondary">Email:</label>
           <input 
             label="Email" 
@@ -122,8 +144,10 @@ export default function RegisterPage(){
             name="email" 
             value={formData.email} 
             onChange={handleChange} 
-            error={error.email} 
           />
+
+          {error.email && ( <div className="text-danger small">{error.email}</div>)}
+
           <label className="form-label mb-1 fw-medium text-secondary">Phone Number:</label>
           <input 
             label="Số điện thoại" 
@@ -131,8 +155,10 @@ export default function RegisterPage(){
             name="phone" 
             value={formData.phone} 
             onChange={handleChange} 
-            error={error.phone} 
           />
+
+          {error.phone && ( <div className="text-danger small">{error.phone}</div>)}
+
           <label className="form-label mb-1 fw-medium text-secondary">Password:</label>
           <div>
             <input 
@@ -141,10 +167,11 @@ export default function RegisterPage(){
               name="password" 
               value={formData.password} 
               onChange={handleChange} 
-              error={error.password} 
               className="w-100"
             />
             
+            {error.password && ( <div className="text-danger small">{error.password}</div>)}
+
             {formData.password && (
               <div className="mt-2">
                 <div className="d-flex gap-1">
@@ -167,8 +194,9 @@ export default function RegisterPage(){
             name="confirmPassword" 
             value={formData.confirmPassword} 
             onChange={handleChange} 
-            error={error.confirmPassword} 
           />
+
+          {error.confirmPassword && ( <div className="text-danger small">{error.confirmPassword}</div>)}
 
           <button type="submit" 
           className="w-100 btn btn-primary d-flex align-items-center justify-content-center gap-2" 

@@ -1,32 +1,50 @@
-import React from 'react'
+import React from 'react';
 
-const Navbar = () => {
-
+const Navbar = ({ onToggleSidebar, user = { name: 'Nguyen Quang Diep', role: 'ADMIN' } }) => {
   return (
-    <div className='navbar'>
-      <header className="topbar d-flex align-items-center justify-content-between px-4">
-        <div className='d-flex align-items-center gap-3'> // Thanh thong tin Trang
-          <button className='btn btn-link text-dark' id='sidebarToggle'> // thay doi dong
-            <i className="bi bi-list fs-4"></i>
+    <nav className="navbar navbar-light bg-white border-bottom px-3 px-md-4 py-2">
+      <div className="d-flex align-items-center justify-content-between w-100">
+        {/* Bên trái: nút toggle + tiêu đề */}
+        <div className="d-flex align-items-center">
+          <button
+            className="btn btn-light border-0 me-3 d-flex align-items-center justify-content-center"
+            style={{ width: '40px', height: '40px' }}
+            onClick={onToggleSidebar}
+            aria-label="Toggle sidebar"
+          >
+            <span className="fs-4">☰</span>
           </button>
-          <h5 className="mb-0" id='pageTitle'>DashBoard</h5> // thay doi dong
+          <h4 className="mb-0 fw-bold text-dark">Dashboard</h4>
         </div>
-        <div className='d-flex align-items-center gap-3'> // Thanh thong tin ben trai
-          <div className='d-flex align-items-center gap-2'> 
-            <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" 
-            style={{ width: '36px', height: '36px' }} id="userAvatar"></div> // avatar nguoi dung
-            <div className='d-none d-sm-block'> // Thong tin nguoi dung
-              <div className='fw-semibold small' id='userName'></div> // Ten nguoi dung
-              <div className='small text-muted' style={{fontSize: "0.7rem"}} id='userRole'></div> // Vai tro nguoi dung
-            </div>
-            <button className='btn btn-outline-secondary btn-sm' id='btnLogout'>
-              <i className='bi bi-box-arrow-right'></i>
-            </button>
-          </div>
-        </div>
-      </header>
-    </div>
-  )
-}
 
-export default Navbar
+        {/* Bên phải: thông tin người dùng */}
+        <div className="d-flex align-items-center">
+          <div
+            className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold me-2"
+            style={{ width: '40px', height: '40px' }}
+          >
+            {user.name?.charAt(0)}
+          </div>
+          <div className="d-none d-sm-flex flex-column me-3">
+            <span className="fw-semibold text-dark" style={{ lineHeight: 1.2 }}>
+              {user.name}
+            </span>
+            <span className="text-muted small" style={{ lineHeight: 1.2 }}>
+              {user.role}
+            </span>
+          </div>
+          <button
+            className="btn btn-light border-0 d-flex align-items-center justify-content-center"
+            style={{ width: '40px', height: '40px' }}
+            aria-label="Đăng xuất"
+            title="Đăng xuất"
+          >
+            <span className="fs-5">🚪</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

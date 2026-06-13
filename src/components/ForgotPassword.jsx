@@ -1,21 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { authApi } from '../apis/apis';
+import { useToast } from '../contexts/ToastContext';
 
 export default function ForgotPassword({ show, onClose }){
   const [otpNumber, setOtpNumber] = useState(['','','','','','']);
   const [loading, setLoading ] = useState(false);
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState({ newPassword: '', confirmPassword: ''});
   const [errorMessage, setErrorMessage] = useState("");
   const [countDown, setCountDown] = useState(300);
   const inputRefs = useRef([]);
+  const { showToast } = useToast();
+
   // step 1: Nhap email, step 2: Nhap OTP
   const [step, setStep] = useState(1);
 
   useEffect(() => {
     if(step !== 2 || countDown <= 0) return;
     const timer = setTimeout(() => setCountDown((prev) => prev - 1), 1000);
-    return () => clearInterval(timer);
+    return () => clearTimeout(timer);
   }, [countDown, step]);
 
   // neu nhu khong show thi an modal
@@ -26,24 +28,34 @@ export default function ForgotPassword({ show, onClose }){
   // Ham xu ly: Gui email de lay ma otp o gmail (POST: /api/auth/forgot-password)
   const handleSendEmail = async (e) => {
     e.preventDefault();
-    if(!email) return;
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(!email){
+      setErrorMessage('Email không được để trống!');
+      return;
+    }
+
+    if(!regex.test(email)){
+      setErrorMessage('Email không đúng định dạng!');
+      return;
+    }
 
     setLoading(true);
     setErrorMessage("");
-
     try{
       const result = await authApi.forgotPassword({email});
 
       if(result?.success){
         setCountDown(300);
+        showToast('Mã OTP đã được gửi đến gmail của bạn!');
+
         setStep(2); // chuyen sang step 2 nhap 6 ma otp
       }else{
         setErrorMessage(result?.message || 'Email khong ton tai!');
       }
 
     }catch(err){
-      
-      setErrorMessage("Co loi he thong xay ra, vui long thu lai sau!");
+
+      setErrorMessage(err?.message || "Co loi he thong xay ra, vui long thu lai sau!");
     }finally{
       setLoading(false);
     }
@@ -63,18 +75,19 @@ export default function ForgotPassword({ show, onClose }){
     setErrorMessage("");
 
     try{
-      const result = await authApi.verifyOtp({email, otpCode});
+      const result = await authApi.verifyOtp({email, otp: otpCode});
 
       if(result?.success){
-        alert('Mat khau da duoc gui ve Email cua ban!');
+        showToast('Mã OTP hợp lệ mật khẩu mới đã được gửi qua email', 'SUCCESS');
         handleCloseModal();
       }else{
         setErrorMessage(result?.message || 'Ma OTP khong dung hoac da het han!');
       }
     }catch(err){
-      setErrorMessage("Xac thuc that bai, vui long kiem tra lai ma OTP!");
+      setErrorMessage(err?.message || "Xac thuc that bai, vui long kiem tra lai ma OTP!");
     }finally{
       setLoading(false);
+      setErrorMessage("");
     }
   }
 
@@ -101,16 +114,20 @@ export default function ForgotPassword({ show, onClose }){
   }
 
   function handleOtpChange(index, value){
-    if(isNaN(value)) return;
+    // Loại bỏ các ký tự lạ không phải số và lấy ký tự cuối cùng
+    const digitRegex = value.replace(/[^0-9]/g, '').slice(-1);
+
     const newOtp = [...otpNumber];
     newOtp[index] = value;
     setOtpNumber(newOtp);
 
     // tu dong chuyen sang (focus) sang o tiep theo
     if(value !== "" && index < 5){
-      inputRefs.current[index + 1].focus();
+      inputRefs.current[index + 1]?.focus();
     }
   };
+
+
   return(
     <>
       {/**Lop mo nen*/}
@@ -139,7 +156,7 @@ export default function ForgotPassword({ show, onClose }){
                       Vui long nhap dia chi email cua ban. <br/>He thong se gui mot ma OTP xac thuc ve Gmail
                     </p>
                     <div className='mb-4'>
-                      <label className='form-lable small fw-medium text-secondary'>Email tai khoan:</label>
+                      <label className='form-lable small fw-medium text-secondary mb-2'>Email tai khoan:</label>
                       <input 
                         type='email' 
                         required 
@@ -171,14 +188,13 @@ export default function ForgotPassword({ show, onClose }){
                             className='form-control text-center fs-5 fw-bold p-0 shadow-none'
                             style={{width: '3rem', height: '3.2rem'}}
                             key={index}
-                            rel={(el) => (inputRefs.current[index] = el)}
+                            ref={(el) => (inputRefs.current[index] = el)}
                             type='text'
                             inputMode='numeric'
                             maxLength={1}
                             value={value}
-                            onChange={handleOtpChange(index, e.target.value.slice(-1))}
-                          >
-                          </input>
+                            onChange={(e) => handleOtpChange(index, e.target.value)}
+                          />
                         ))}
                       </div>
 

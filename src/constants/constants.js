@@ -14,4 +14,3 @@ export const ColorStatus = Object.freeze({
     MUTED: 'badge bg-secondary-subtle text-secondary-emphasis',   // Xám đậm (Waiting, Cancelled)
     DISABLED: 'badge bg-light text-muted border',                 // Xám nhạt (Cancelled/Disabled hẳn)
 }); // Object.freeze ngan chan hanh vi thay doi voi gia tri cua bien
-
