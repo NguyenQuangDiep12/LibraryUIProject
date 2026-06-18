@@ -6,7 +6,7 @@ export const authApi = {
     forgotPassword: (data) => apiClient.post('/auth/forgot-password', data),
     verifyOtp: (data) => apiClient.post('/auth/verify-otp', data),
     resetPassword: (data) => apiClient.post('/auth/reset-password', data),
-}
+};
 
 export const bookApi = {
   getAll: (params) => apiClient.get('/books', { params }),
@@ -14,7 +14,7 @@ export const bookApi = {
   create: (data) => apiClient.post('/books', data),
   update: (id, data) => apiClient.put(`/books/${id}`, data),
   delete: (id) => apiClient.delete(`/books/${id}`),
-}
+};
 
 export const bookCopyApi = {
   getAll: (params) => apiClient.get('/book-copies', { params }),
@@ -22,7 +22,7 @@ export const bookCopyApi = {
   create: (bookId, data) => apiClient.post(`/book-copies/book/${bookId}`, data),
   update: (id, data) => apiClient.put(`/book-copies/${id}`, data),
   updateStatus: (id, status) => apiClient.patch(`/book-copies/${id}/status`, { status }),
-}
+};
 
 export const borrowApi = {
   getAll: (params) => apiClient.get('/borrow-records', { params }),
@@ -33,7 +33,7 @@ export const borrowApi = {
   cancel: (id) => apiClient.patch(`/borrow-records/${id}/cancel`),
   extend: (id, data) => apiClient.patch(`/borrow-records/${id}/extend`, data),
   requestExtension: (id) => apiClient.post(`/borrow-records/${id}/extension-requests`),
-}
+};
 
 export const fineApi = {
   getAll: (params) => apiClient.get('/fines', { params }),
@@ -41,14 +41,14 @@ export const fineApi = {
   getById: (id) => apiClient.get(`/fines/${id}`),
   create: (data) => apiClient.post('/fines', data),
   pay: (id) => apiClient.patch(`/fines/${id}/pay`),
-}
+};
 
 export const reservationApi = {
   getAll: (params) => apiClient.get('/reservations', { params }),
   create: (data) => apiClient.post('/reservations', data),
   cancel: (id) => apiClient.patch(`/reservations/${id}/cancel`),
   complete: (id) => apiClient.patch(`/reservations/${id}/complete`),
-}
+};
 
 export const userApi = {
   getAll: (params) => apiClient.get('/users', { params }),
@@ -59,7 +59,7 @@ export const userApi = {
   updateStatus: (id, status) => apiClient.patch(`/users/${id}/status`, { status }),
   addStaff: (data) => apiClient.post('/users/staff', data),
   getStaffs: (params) => apiClient.get('/users/staffs', { params }),
-}
+};
 
 export const categoryApi = {
   getAll: () => apiClient.get('/categories'),
@@ -67,7 +67,7 @@ export const categoryApi = {
   create: (data) => apiClient.post('/categories', data),
   update: (id, data) => apiClient.put(`/categories/${id}`, data),
   delete: (id) => apiClient.delete(`/categories/${id}`),
-}
+};
 
 export const authorApi = {
   getAll: () => apiClient.get('/authors'),
@@ -75,7 +75,7 @@ export const authorApi = {
   create: (data) => apiClient.post('/authors', data),
   update: (id, data) => apiClient.put(`/authors/${id}`, data),
   delete: (id) => apiClient.delete(`/authors/${id}`),
-}
+};
 
 export const publisherApi = {
   getAll: () => apiClient.get('/publishers'),
@@ -83,18 +83,18 @@ export const publisherApi = {
   create: (data) => apiClient.post('/publishers', data),
   update: (id, data) => apiClient.put(`/publishers/${id}`, data),
   delete: (id) => apiClient.delete(`/publishers/${id}`),
-}
+};
 
 export const notificationApi = {
   getAll: (params) => apiClient.get('/notifications', { params }),
   getById: (id) => apiClient.get(`/notifications/${id}`),
   readOne: (id) => apiClient.patch(`/notifications/${id}/read`),
   readAll: () => apiClient.patch('/notifications/read-all'),
-}
+};
 
 export const statsApi = {
   getOverview: () => apiClient.get('/statistic/overviews'),
   getOverdue: () => apiClient.get('/statistic/overdue'),
   getTopBooks: (params) => apiClient.get('/statistic/top-books', { params }),
-}
+};
  

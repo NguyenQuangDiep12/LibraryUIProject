@@ -35,7 +35,7 @@ export default function RegisterPage(){
     if(error[name]){
       setError((prev) => ({ ...prev, [name]: '' }));
     }
-  }
+  };
 
   // Ham validate du lieu 
   const validateForm = () => {
@@ -73,7 +73,7 @@ export default function RegisterPage(){
 
     setError(newError);
     return Object.keys(newError).length === 0;
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,7 +116,7 @@ export default function RegisterPage(){
     }finally{
       setIsSubmitting(false);
     }
-  }
+  };
 
   return(
     <div className="d-flex min-vh-100 align-items-center justify-content-center bg-light px-3 py-4">
@@ -218,5 +218,5 @@ export default function RegisterPage(){
         </p>
       </div>
     </div>
-  )
+  );
 }

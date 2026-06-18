@@ -1,44 +1,61 @@
-import { useState } from 'react';
+import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import Statistics from './components/Statistics';
 import { ToastProvider } from './contexts/ToastContext';
-import { Role } from './constants/constants';
-import BorrowReturn from './components/borrow-return/BorrowReturn';
-import BookManagement from './components/books/BookManagement';
-import CategoryManagement from './components/categories/CategoryManagement';
-import AuthorManagement from './components/authors/AuthorManagement';
-import PublisherManagement from './components/publishers/PublisherManagement';
-import ReaderManagement from './components/users/ReaderManagement';
-import FineManagement from './components/fines/FineManagement';
-import ReservationManagement from './components/reservation/ReservationManagement';
-import StaffManagement from './components/users/StaffManagement';
-import Profile from './components/profiles/Profile';
+import HomePage from './pages/HomePage';
+import DetailBookPage from './pages/DetailBookPage';
+import AboutUs from './pages/AboutUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import ComplaintPolicy from './pages/ComplainPolicy';
+
+// Lazy load feature containers for clean separation
+const StatisticsContent = lazy(() => import('./components/Statistics/StatisticsContent'));
+const BorrowContainer = lazy(() => import('./features/borrow/BorrowContainer'));
+const BookContainer = lazy(() => import('./features/books/BookContainer'));
+const CategoryContainer = lazy(() => import('./features/categories/CategoryContainer'));
+const AuthorContainer = lazy(() => import('./features/authors/AuthorContainer'));
+const PublisherContainer = lazy(() => import('./features/publishers/PublisherContainer'));
+const ReaderContainer = lazy(() => import('./features/readers/ReaderContainer'));
+const FineContainer = lazy(() => import('./features/fines/FineContainer'));
+const ReservationContainer = lazy(() => import('./features/reservations/ReservationContainer'));
+const StaffContainer = lazy(() => import('./features/staff/StaffContainer'));
+const ProfileContainer = lazy(() => import('./features/profiles/ProfileContainer'));
+const NotificationContainer = lazy(() => import('./features/notifications/NotificationContainer'));
 
 function App() {
   return (
     <ToastProvider>
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage/>} />
-        <Route path="/dashboard" element={<DashboardPage/>}>
-          <Route path="statistics" element={<Statistics/>}/>
-          <Route path="borrow" element={<BorrowReturn/>}/>
-          <Route path="book-management" element={<BookManagement/>}/>
-          <Route path="category" element={<CategoryManagement/>} />
-          <Route path="author" element={<AuthorManagement/>} />
-          <Route path="publisher" element={<PublisherManagement/>}/>
-          <Route path="reader" element={<ReaderManagement/>}/>
-          <Route path="fine" element={<FineManagement/>}/>
-          <Route path="reservation" element={<ReservationManagement/>}/>
-          <Route path="staff" element={<StaffManagement/>}/>
-          <Route path="profile" element={<Profile/>}/>
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/book/:id" element={<DetailBookPage />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/complain" element={<ComplaintPolicy />} />
+        
+        {/* Protected Dashboard Layout and Subroutes */}
+        <Route path="/dashboard" element={<DashboardPage />}>
+          <Route index element={<StatisticsContent />} />
+          <Route path="statistics" element={<StatisticsContent />} />
+          <Route path="borrow" element={<BorrowContainer />} />
+          <Route path="books" element={<BookContainer />} />
+          <Route path="category" element={<CategoryContainer />} />
+          <Route path="author" element={<AuthorContainer />} />
+          <Route path="publisher" element={<PublisherContainer />} />
+          <Route path="reader" element={<ReaderContainer />} />
+          <Route path="fine" element={<FineContainer />} />
+          <Route path="reservation" element={<ReservationContainer />} />
+          <Route path="notifications" element={<NotificationContainer />} />
+          <Route path="staff" element={<StaffContainer />} />
+          <Route path="profile" element={<ProfileContainer />} />
         </Route>
       </Routes>
     </ToastProvider>
-  )
+  );
 }
 
-export default App
+export default App;

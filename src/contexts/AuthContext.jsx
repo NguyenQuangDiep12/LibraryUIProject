@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
 
@@ -29,12 +29,12 @@ export function AuthProvider({ children }){
         localStorage.removeItem('userInfo');
 
         setUserInfo(null);
-    }
+    };
 
     const isAuthenticated = !!userInfo; // trulthy falsy
     const role = userInfo?.role; // Kiem tra role
     return (
-        <AuthContext.Provider value={{userInfo, loading, login, logout, isAuthenticated, role}}>
+        <AuthContext.Provider value={{userInfo, setUserInfo, loading, login, logout, isAuthenticated, role}}>
             {!loading && children}
         </AuthContext.Provider>
     );
@@ -46,4 +46,4 @@ export const useAuth = () => {
     if(!context) throw new Error("useAuth must be used within AuthProvider");
 
     return context;
-}
+};

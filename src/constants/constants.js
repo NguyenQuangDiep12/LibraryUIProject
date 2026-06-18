@@ -2,7 +2,7 @@ export const Role = {
     ADMIN: "ADMIN",
     STAFF: "STAFF",
     READER: "READER"
-}
+};
 
 /**Status color*/
 

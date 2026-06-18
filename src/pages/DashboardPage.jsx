@@ -1,32 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import Footer from '../components/Footer';
-import { Outlet } from 'react-router-dom';
+import { useRole } from '../hooks/useRole';
 
 const DashboardPage = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { role, isAdmin, isStaff, isReader } = useRole();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const year = new Date().getFullYear();
+
+  useEffect(() => {
+    // If user accesses the base dashboard path, redirect to their authorized default tab
+    if (location.pathname === '/dashboard' || location.pathname === '/dashboard/') {
+      if (isAdmin) {
+        navigate('/dashboard/statistics', { replace: true });
+      } else if (isStaff || isReader) {
+        navigate('/dashboard/borrow', { replace: true });
+      }
+    }
+  }, [location.pathname, role, isAdmin, isStaff, isReader, navigate]);
 
   return (
     <div className="d-flex vh-100 bg-light">
-      
-      {/* 1. SIDEBAR: Cố định bên trái, hỗ trợ thu gọn */}
+      {/* 1. SIDEBAR: Fixed left navigation */}
       <Sidebar collapsed={collapsed} />
 
-      {/* 2. PHẦN BÊN PHẢI: Chứa Navbar, Nội dung và Footer */}
+      {/* 2. RIGHT CONTENT AREA: Navbar, Outlet, and Footer */}
       <div className="flex-grow-1 d-flex flex-column overflow-hidden">
-        
-        {/* Navbar cố định phía trên */}
+        {/* Top Header / Navbar */}
         <Navbar onToggleSidebar={() => setCollapsed((prev) => !prev)} />
 
-        {/* 3. MAIN CONTENT: Phần nội dung có thể cuộn (scroll) */}
+        {/* 3. MAIN OUTLET: Render matching sub-routes */}
         <main className="flex-grow-1 overflow-auto p-4 p-md-5">
-          <Outlet/>
+          <React.Suspense fallback={
+            <div className="d-flex justify-content-center align-items-center py-5">
+              <div className="spinner-border text-primary" role="status"></div>
+            </div>
+          }>
+            <Outlet />
+          </React.Suspense>
         </main>
-        {/* Footer nằm ở dưới cùng của phần bên phải */}
-        <Footer />
+
+        {/* Footer */}
+        <footer className="bg-white border-top px-4 py-3">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center text-muted small">
+            <span>© {year} LibraryHub. All rights reserved.</span>
+            <span>Phiên bản 1.0.0</span>
+          </div>
+        </footer>
       </div>
-      
     </div>
   );
 };

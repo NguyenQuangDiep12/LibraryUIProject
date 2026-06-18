@@ -65,7 +65,7 @@ export default function LoginPage() {
 
         const role = result.data.userInfo?.role;
         if(role === Role.ADMIN){
-           navigate('/dashboards');
+           navigate('/dashboard');
         }
         else if (role === Role.STAFF) {
           navigate('/dashboard/staff');
