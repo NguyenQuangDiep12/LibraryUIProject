@@ -10,14 +10,17 @@ export const AuthorFormModal = ({
 }) => {
   const [name, setName] = useState('');
   const [biography, setBiography] = useState('');
+  const [authorUrl, setAuthorUrl] = useState('');
 
   useEffect(() => {
     if (initialData && mode === 'edit') {
-      setName(initialData.name || initialData.Name || '');
+      setName(initialData.name || initialData.Name || initialData.authorName || initialData.AuthorName || '');
       setBiography(initialData.biography || initialData.Biography || '');
+      setAuthorUrl(initialData.authorUrl || initialData.AuthorUrl || '');
     } else {
       setName('');
       setBiography('');
+      setAuthorUrl('');
     }
   }, [initialData, mode, isOpen]);
 
@@ -25,7 +28,7 @@ export const AuthorFormModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ name: name.trim(), biography: biography.trim() });
+    onSave({ authorName: name.trim(), biography: biography.trim(), authorUrl: authorUrl.trim() });
   };
 
   return (
@@ -49,6 +52,16 @@ export const AuthorFormModal = ({
                     className="form-control"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="col-12">
+                  <label className="form-label text-dark fw-medium small">Link tìm hiểu tác giả (Url) <span className="text-danger">*</span></label>
+                  <input
+                    type="url"
+                    className="form-control"
+                    value={authorUrl}
+                    onChange={(e) => setAuthorUrl(e.target.value)}
                     required
                   />
                 </div>

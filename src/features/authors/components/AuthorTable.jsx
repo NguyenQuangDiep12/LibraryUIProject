@@ -16,7 +16,7 @@ export const AuthorTable = ({ authors, isLoading, onEdit, onDelete }) => {
     {
       key: 'name',
       label: 'Tác giả',
-      renderFunction: (row) => row.name || row.Name || '—',
+      renderFunction: (row) => row.name || row.Name || row.authorName || row.AuthorName || '—',
     },
     {
       key: 'biography',
