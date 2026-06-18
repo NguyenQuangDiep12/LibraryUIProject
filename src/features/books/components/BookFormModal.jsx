@@ -39,7 +39,7 @@ export const BookFormModal = ({
       setFormData({
         title: '',
         isbn: '',
-        publisherId: publishers[0]?.id || publishers[0]?.publisherId || '',
+        publisherId: publishers[0]?.id || publishers[0]?.publisherId || publishers[0]?.PublisherId || '',
         categoryIds: [],
         authorIds: [],
         language: 'Tiếng Việt',
@@ -65,7 +65,7 @@ export const BookFormModal = ({
   };
 
   const filteredAuthors = authors.filter((a) => {
-    const name = a.name || a.Name || '';
+    const name = a.name || a.Name || a.authorName || a.AuthorName || '';
     return name.toLowerCase().includes(authorSearch.toLowerCase());
   });
 
@@ -133,8 +133,8 @@ export const BookFormModal = ({
                     >
                       <option value="">-- Chọn nhà xuất bản --</option>
                       {publishers.map((p) => {
-                        const id = p.id || p.publisherId;
-                        return <option key={id} value={id}>{p.name}</option>;
+                        const id = p.id || p.publisherId || p.PublisherId;
+                        return <option key={id} value={id}>{p.name || p.Name || p.publisherName || p.PublisherName}</option>;
                       })}
                     </select>
                   </div>
@@ -183,7 +183,7 @@ export const BookFormModal = ({
                               onChange={() => handleMultiSelect('categoryIds', id)}
                             />
                             <label className="form-check-label text-dark small" htmlFor={`cat-${id}`}>
-                              {c.name}
+                              {c.name || c.Name || c.categoryName || c.CategoryName}
                             </label>
                           </div>
                         );
@@ -215,7 +215,7 @@ export const BookFormModal = ({
                               onChange={() => handleMultiSelect('authorIds', id)}
                             />
                             <label className="form-check-label text-dark small" htmlFor={`auth-${id}`}>
-                              {a.name}
+                              {a.name || a.Name || a.authorName || a.AuthorName}
                             </label>
                           </div>
                         );

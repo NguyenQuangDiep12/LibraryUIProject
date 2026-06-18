@@ -174,8 +174,8 @@ export const BookContainer = () => {
           >
             <option value="">-- Tất cả danh mục --</option>
             {categories.map((c) => (
-              <option key={c.id || c.categoryId} value={c.id || c.categoryId}>
-                {c.name}
+              <option key={c.id || c.categoryId || c.CategoryId} value={c.id || c.categoryId || c.CategoryId}>
+                {c.name || c.Name || c.categoryName || c.CategoryName}
               </option>
             ))}
           </select>
