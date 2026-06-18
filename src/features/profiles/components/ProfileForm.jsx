@@ -77,12 +77,13 @@ export const ProfileForm = ({
             <form onSubmit={handleProfileSubmit}>
               <div className="mb-3 text-center">
                 <img
-                  src={profileData.avatarUrl || 'https://via.placeholder.com/80'}
+                  src={profileData.avatarUrl || 'https://ui-avatars.com/api/?name=User&background=eaeaea&color=adb5bd&size=80'}
                   className="rounded-circle border"
                   style={{ width: 80, height: 80, objectFit: 'cover' }}
                   alt="avatar"
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/80';
+                    e.target.onerror = null;
+                    e.target.src = 'https://ui-avatars.com/api/?name=User&background=eaeaea&color=adb5bd&size=80';
                   }}
                 />
               </div>
