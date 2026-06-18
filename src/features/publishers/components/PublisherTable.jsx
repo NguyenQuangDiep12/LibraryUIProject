@@ -16,7 +16,7 @@ export const PublisherTable = ({ publishers, isLoading, onEdit, onDelete }) => {
     {
       key: 'name',
       label: 'Nhà xuất bản',
-      renderFunction: (row) => row.name || row.Name || '—',
+      renderFunction: (row) => row.name || row.Name || row.publisherName || row.PublisherName || '—',
     },
     {
       key: 'actions',

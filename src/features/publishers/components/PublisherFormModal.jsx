@@ -9,12 +9,15 @@ export const PublisherFormModal = ({
   isLoading = false,
 }) => {
   const [name, setName] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
 
   useEffect(() => {
     if (initialData && mode === 'edit') {
-      setName(initialData.name || initialData.Name || '');
+      setName(initialData.name || initialData.Name || initialData.publisherName || initialData.PublisherName || '');
+      setLogoUrl(initialData.logoUrl || initialData.LogoUrl || '');
     } else {
       setName('');
+      setLogoUrl('');
     }
   }, [initialData, mode, isOpen]);
 
@@ -22,7 +25,7 @@ export const PublisherFormModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ name: name.trim() });
+    onSave({ publisherName: name.trim(), logoUrl: logoUrl.trim() });
   };
 
   return (
@@ -46,6 +49,16 @@ export const PublisherFormModal = ({
                     className="form-control"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="col-12">
+                  <label className="form-label text-dark fw-medium small">Link Logo (Url) <span className="text-danger">*</span></label>
+                  <input
+                    type="url"
+                    className="form-control"
+                    value={logoUrl}
+                    onChange={(e) => setLogoUrl(e.target.value)}
                     required
                   />
                 </div>
