@@ -1,0 +1,121 @@
+:root {
+  --waka-primary: #20c997;
+  --waka-primary-hover: #1ba87e;
+  --waka-bg-dark: #141414;
+  --waka-bg-card: #1a1a1a;
+  --waka-bg-card-hover: #2c2c2c;
+  --waka-border: #333;
+  --waka-text-muted: #aaa;
+  --waka-text-white: #fff;
+  --waka-danger: #dc3545;
+  --waka-success: #198754;
+
+  /* Light Theme Variables */
+  --waka-bg-light: #f8f9fa;
+  --waka-bg-card-light: #ffffff;
+  --waka-border-light: #e9ecef;
+  --waka-text-dark: #212529;
+  --waka-btn-primary-light: #0d6efd;
+  --waka-btn-primary-light-hover: #0b5ed7;
+  --waka-btn-dark: #212529;
+  --waka-btn-dark-hover: #1c1f23;
+}
+
+/* Waka Global Helpers */
+.waka-primary-color {
+  color: var(--waka-primary);
+}
+
+.waka-primary-bg {
+  background-color: var(--waka-primary);
+}
+
+/* Category Shelves */
+.category-title {
+  position: relative;
+  padding-left: 15px;
+}
+.category-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 4px;
+  background-color: var(--waka-primary);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(32, 201, 151, 0.6);
+}
+
+.book-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 3D Book Cover Overlay */
+.book-cover-3d {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+.book-cover-3d::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 90%, rgba(0,0,0,0.15) 100%);
+  pointer-events: none;
+}
+
+/* Button Animations & Styles */
+.btn-hero {
+  background-color: var(--waka-primary);
+  border: none;
+  color: var(--waka-bg-dark);
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+.btn-hero:hover {
+  background-color: var(--waka-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(32, 201, 151, 0.4);
+  color: var(--waka-bg-dark);
+}
+
+.btn-hero-outline {
+  border: 1px solid var(--waka-text-white);
+  color: var(--waka-text-white);
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  background: transparent;
+}
+.btn-hero-outline:hover {
+  transform: translateY(-2px);
+  background-color: var(--waka-text-white);
+  color: var(--waka-bg-dark);
+}
+
+.btn-xem-them {
+  color: var(--waka-primary);
+  font-size: 0.8rem;
+  border: 1px solid var(--waka-border);
+  background-color: var(--waka-bg-card);
+  transition: all 0.2s;
+}
+.btn-xem-them:hover {
+  background-color: var(--waka-primary);
+  color: var(--waka-bg-dark);
+}
+
+/* General Button Overrides */
+.btn-waka-success {
+  background-color: var(--waka-primary);
+  color: var(--waka-bg-dark);
+  border: none;
+  transition: all 0.2s;
+}
+.btn-waka-success:hover {
+  background-color: var(--waka-primary-hover);
+  color: var(--waka-bg-dark);
+}
