@@ -13,7 +13,7 @@ export const CategoryFormModal = ({
 
   useEffect(() => {
     if (initialData && mode === 'edit') {
-      setName(initialData.name || initialData.Name || '');
+      setName(initialData.name || initialData.Name || initialData.categoryName || initialData.CategoryName || '');
       setDescription(initialData.description || initialData.Description || '');
     } else {
       setName('');
@@ -25,7 +25,7 @@ export const CategoryFormModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ name: name.trim(), description: description.trim() });
+    onSave({ categoryName: name.trim(), description: description.trim() });
   };
 
   return (

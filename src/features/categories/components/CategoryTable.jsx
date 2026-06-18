@@ -16,7 +16,7 @@ export const CategoryTable = ({ categories, isLoading, onEdit, onDelete }) => {
     {
       key: 'name',
       label: 'Tên danh mục',
-      renderFunction: (row) => row.name || row.Name || '—',
+      renderFunction: (row) => row.name || row.Name || row.categoryName || row.CategoryName || '—',
     },
     {
       key: 'description',
