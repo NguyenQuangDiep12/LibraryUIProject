@@ -1,21 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useRole } from '../hooks/useRole';
+import { MENU_ITEMS } from '../config/menuConfig';
 
-const menuItems = [
-  { path: '/dashboard', icon: '🏠', label: 'Dashboard' },
-  { path: '/dashboard/borrow', icon: '🔄', label: 'Mượn / Trả' },
-  { path: '/dashboard/book-management', icon: '📖', label: 'Quản lý sách' },
-  { path: '/dashboard/category', icon: '🏷️', label: 'Danh mục' },
-  { path: '/dashboard/author', icon: '✏️', label: 'Tác giả' },
-  { path: '/dashboard/publisher', icon: '🏢', label: 'Nhà xuất bản' },
-  { path: '/dashboard/reader', icon: '👥', label: 'Độc giả' },
-  { path: '/dashboard/fine', icon: '🚫', label: 'Vi phạm' },
-  { path: '/dashboard/reservation', icon: '🔖', label: 'Đặt trước' },
-  { path: '/dashboard/staff', icon: '🪪', label: 'Nhân viên' },
-  { path: '/dashboard/profile', icon: '👤', label: 'Cá nhân' },
-];
+export const Sidebar = ({ collapsed }) => {
+  const { role } = useRole();
 
-const Sidebar = ({ collapsed }) => {
+  // Filter menu items by allowed roles
+  const filteredMenuItems = MENU_ITEMS.filter(
+    (item) => !item.allowedRoles || item.allowedRoles.includes(role)
+  );
+
   return (
     <div
       className={`bg-dark text-white d-flex flex-column flex-shrink-0 ${
@@ -41,11 +36,11 @@ const Sidebar = ({ collapsed }) => {
       {/* Menu */}
       <nav className="flex-grow-1 overflow-auto py-2">
         <ul className="nav nav-pills flex-column">
-          {menuItems.map((item) => (
+          {filteredMenuItems.map((item) => (
             <li className="nav-item" key={item.path}>
               <NavLink
                 to={item.path}
-                end={item.path === '/'}
+                end={item.path === '/' || item.path === '/dashboard'}
                 className={({ isActive }) =>
                   `nav-link rounded-0 d-flex align-items-center text-white px-3 py-2 ${
                     isActive ? 'active bg-primary' : 'text-white-50'

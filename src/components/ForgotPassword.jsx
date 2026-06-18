@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { authApi } from '../apis/apis';
 import { useToast } from '../contexts/ToastContext';
 
@@ -89,7 +89,7 @@ export default function ForgotPassword({ show, onClose }){
       setLoading(false);
       setErrorMessage("");
     }
-  }
+  };
 
    // Gui lai ma OTP 
   const handleResendOtp = async () => {
@@ -102,7 +102,7 @@ export default function ForgotPassword({ show, onClose }){
     }catch(err){
       setErrorMessage("Khong the gui lai ma luc nay!");
     }
-  }
+  };
 
   function handleCloseModal(){
     setEmail("");
@@ -240,5 +240,5 @@ export default function ForgotPassword({ show, onClose }){
           </div>
         </div>
     </>
-  )
+  );
 }
