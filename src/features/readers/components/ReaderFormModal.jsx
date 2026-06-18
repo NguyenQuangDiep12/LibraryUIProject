@@ -48,7 +48,7 @@ export const ReaderFormModal = ({
                 <div className="modal-body row g-3 text-dark">
                   <div className="col-12 text-center mb-2">
                     <img
-                      src={initialData.avatarUrl || initialData.AvatarUrl || 'https://via.placeholder.com/80'}
+                      src={initialData.avatarUrl || initialData.AvatarUrl || 'https://ui-avatars.com/api/?name=User&background=eaeaea&color=adb5bd&size=80'}
                       alt="Avatar"
                       className="rounded-circle border"
                       style={{ width: '80px', height: '80px', objectFit: 'cover' }}
