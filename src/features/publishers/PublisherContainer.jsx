@@ -26,9 +26,10 @@ export const PublisherContainer = () => {
     setLoading(true);
     try {
       const res = await publisherApi.getAll();
-      setPublishers(res.data || res.Data || []);
+      const data = res.data || res.Data;
+      setPublishers(data?.items || data?.Items || (Array.isArray(data) ? data : []));
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải nhà xuất bản');
+      showToast(err.message || 'Lỗi tải nhà xuất bản', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -49,16 +50,16 @@ export const PublisherContainer = () => {
     try {
       if (modalMode === 'add') {
         await publisherApi.create(formData);
-        showToast('success', 'Thêm nhà xuất bản mới thành công');
+        showToast('Thêm nhà xuất bản mới thành công', 'SUCCESS');
       } else {
         const id = formModal.modalData.id || formModal.modalData.publisherId || formModal.modalData.PublisherId;
         await publisherApi.update(id, formData);
-        showToast('success', 'Cập nhật thông tin nhà xuất bản thành công');
+        showToast('Cập nhật thông tin nhà xuất bản thành công', 'SUCCESS');
       }
       formModal.closeModal();
       fetchPublishers();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi lưu thông tin nhà xuất bản');
+      showToast(err.message || 'Lỗi lưu thông tin nhà xuất bản', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -69,11 +70,11 @@ export const PublisherContainer = () => {
     setActionLoading(true);
     try {
       await publisherApi.delete(id);
-      showToast('success', 'Xóa nhà xuất bản thành công');
+      showToast('Xóa nhà xuất bản thành công', 'SUCCESS');
       deleteModal.closeModal();
       fetchPublishers();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xóa nhà xuất bản');
+      showToast(err.message || 'Lỗi xóa nhà xuất bản', 'DANGER');
     } finally {
       setActionLoading(false);
     }

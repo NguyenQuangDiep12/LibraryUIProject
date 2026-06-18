@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useRole } from '../hooks/useRole';
 import { MENU_ITEMS } from '../config/menuConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Sidebar = ({ collapsed }) => {
   const { role } = useRole();
@@ -48,7 +49,7 @@ export const Sidebar = ({ collapsed }) => {
                 }
               >
                 <span className="fs-5" style={{ width: '24px' }}>
-                  {item.icon}
+                  <FontAwesomeIcon icon={item.icon} className='fs-5'/>
                 </span>
                 {!collapsed && <span className="ms-2 text-nowrap">{item.label}</span>}
               </NavLink>

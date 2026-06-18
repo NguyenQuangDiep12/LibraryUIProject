@@ -45,7 +45,7 @@ export const ReaderContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải danh sách độc giả');
+      showToast(err.message || 'Lỗi tải danh sách độc giả', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -70,7 +70,7 @@ export const ReaderContainer = () => {
       setModalMode('details');
       formModal.openModal(res.data || res.Data);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải chi tiết độc giả');
+      showToast(err.message || 'Lỗi tải chi tiết độc giả', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -86,11 +86,11 @@ export const ReaderContainer = () => {
     try {
       const id = formModal.modalData.id || formModal.modalData.Id;
       await userApi.update(id, formData);
-      showToast('success', 'Cập nhật thông tin độc giả thành công');
+      showToast('Cập nhật thông tin độc giả thành công', 'SUCCESS');
       formModal.closeModal();
       fetchReaders();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi lưu thông tin độc giả');
+      showToast(err.message || 'Lỗi lưu thông tin độc giả', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -116,10 +116,10 @@ export const ReaderContainer = () => {
       // ASP.NET Core deserializes camelCase, so { status: nextStatus } works perfectly!
       const id = row.id || row.Id;
       await userApi.updateStatus(id, nextStatus);
-      showToast('success', 'Cập nhật trạng thái tài khoản thành công');
+      showToast('Cập nhật trạng thái tài khoản thành công', 'SUCCESS');
       fetchReaders();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi cập nhật trạng thái tài khoản');
+      showToast(err.message || 'Lỗi cập nhật trạng thái tài khoản', 'DANGER');
     }
   };
 
@@ -132,10 +132,10 @@ export const ReaderContainer = () => {
     try {
       const id = row.id || row.Id;
       await userApi.updateCardStatus(id, nextStatus);
-      showToast('success', 'Cập nhật trạng thái thẻ thành công');
+      showToast('Cập nhật trạng thái thẻ thành công', 'SUCCESS');
       fetchReaders();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi cập nhật trạng thái thẻ');
+      showToast(err.message || 'Lỗi cập nhật trạng thái thẻ', 'DANGER');
     }
   };
 

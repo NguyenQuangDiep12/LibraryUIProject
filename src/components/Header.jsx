@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDebounce } from '../utils/useDebounce';
 import { bookApi } from '../apis/apis';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,8 +11,21 @@ const Header = () => {
     const [books, setBooks] = useState([]); 
     const [showDropdown, setShowDropdown] = useState(false);
     const { isAuthenticated, logout } = useAuth();
+    const dropdownRef = useRef(null);
 
     const debouncedSearchItem = useDebounce(searchItem, 500);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     useEffect(() => {
       if (debouncedSearchItem.trim() === '') {
@@ -28,7 +41,7 @@ const Header = () => {
           Keyword: debouncedSearchItem,
           CategoryId: null,
           AuthorId: null,
-          PageNumber: 1,
+          Page: 1,
           PageSize: 10 // Lấy tối đa 10 cuốn gần nhất để gợi ý cuộn
         };
 
@@ -65,7 +78,7 @@ const Header = () => {
       <div className="container-fluid px-md-5 px-3 d-flex align-items-center justify-content-between">
         {/* Logo */}
         <Link 
-          className="navbar-brand fw-bold fs-3 text-uppercase" href="#" 
+          className="navbar-brand fw-bold fs-3 text-uppercase" 
           style={{ color: 'var(--waka-primary)', letterSpacing: '1px' }}
           to='/' replace
         >
@@ -76,7 +89,7 @@ const Header = () => {
         <div className="d-flex align-items-center gap-2 gap-sm-3">
           
           {/* Ô Input tìm kiếm */}
-          <div className="position-relative d-flex align-items-center">
+          <div className="position-relative d-flex align-items-center" ref={dropdownRef}>
             <input 
               type="text"
               className="form-control form-control-sm bg-dark text-white border-secondary rounded-pill ps-3 pe-5"
@@ -87,7 +100,6 @@ const Header = () => {
                 setShowDropdown(true);
               }} 
               onFocus={() => setShowDropdown(true)}
-              onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
               style={{ width: '200px', fontSize: '0.85rem' }}
             />
             {/* Biểu tượng kính lúp hoặc Loading */}

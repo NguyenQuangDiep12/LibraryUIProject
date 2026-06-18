@@ -7,6 +7,8 @@ import BookTable from './components/BookTable';
 import BookFormModal from './components/BookFormModal';
 import BookCopiesModal from './components/BookCopiesModal';
 import ConfirmModal from '../../components/common/ConfirmModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export const BookContainer = () => {
   const { showToast } = useToast();
@@ -49,11 +51,17 @@ export const BookContainer = () => {
         authorApi.getAll(),
         publisherApi.getAll(),
       ]);
-      setCategories(cats.data || cats.Data || []);
-      setAuthors(auths.data || auths.Data || []);
-      setPublishers(pubs.data || pubs.Data || []);
+      
+      const getItems = (res) => {
+        const data = res.data || res.Data;
+        return data?.items || data?.Items || (Array.isArray(data) ? data : []);
+      };
+
+      setCategories(getItems(cats));
+      setAuthors(getItems(auths));
+      setPublishers(getItems(pubs));
     } catch (err) {
-      showToast('error', 'Lỗi tải danh mục/tác giả/nhà xuất bản');
+      showToast('Lỗi tải danh mục/tác giả/nhà xuất bản', 'DANGER');
     }
   };
 
@@ -72,7 +80,7 @@ export const BookContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải danh sách sách');
+      showToast(err.message || 'Lỗi tải danh sách sách', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -88,6 +96,7 @@ export const BookContainer = () => {
     setSearchTerm('');
     setSelectedCategory('');
     setPage(1);
+    fetchBooks();
   };
 
   const handleOpenAdd = () => {
@@ -105,16 +114,16 @@ export const BookContainer = () => {
     try {
       if (modalMode === 'add') {
         await bookApi.create(formData);
-        showToast('success', 'Thêm đầu sách mới thành công');
+        showToast('Thêm đầu sách mới thành công', 'SUCCESS');
       } else {
         const bookId = formModal.modalData.bookId || formModal.modalData.BookId;
         await bookApi.update(bookId, formData);
-        showToast('success', 'Cập nhật thông tin sách thành công');
+        showToast('Cập nhật thông tin sách thành công', 'SUCCESS');
       }
       formModal.closeModal();
       fetchBooks();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi lưu thông tin sách');
+      showToast(err.message || 'Lỗi lưu thông tin sách', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -125,11 +134,11 @@ export const BookContainer = () => {
     setActionLoading(true);
     try {
       await bookApi.delete(bookId);
-      showToast('success', 'Xóa đầu sách thành công');
+      showToast('Xóa đầu sách thành công', 'SUCCESS');
       deleteModal.closeModal();
       fetchBooks();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xóa đầu sách');
+      showToast(err.message || 'Lỗi xóa đầu sách', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -141,7 +150,7 @@ export const BookContainer = () => {
         <h6 className="mb-0 text-dark fw-bold" style={{ fontSize: '1.1rem' }}>Quản lý sách</h6>
         {(isAdmin || isStaff) && (
           <button className="btn btn-primary d-flex align-items-center gap-1 px-3 py-1.5 rounded-1" onClick={handleOpenAdd}>
-            <span className="fs-5 lh-1">+</span> Thêm mới
+            <span className="fs-5 lh-1"><FontAwesomeIcon icon={faPlus}/></span> Thêm mới
           </button>
         )}
       </div>

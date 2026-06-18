@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { statsApi } from '../../apis/apis';
+import { statsApi } from '../apis/apis';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTriangleExclamation, faTrophy } from '@fortawesome/free-solid-svg-icons';
 
 const StatisticsContent = () => {
   const [stats, setStats] = useState({ totalBooks: 0, totalUsers: 0, totalBorrows: 0, overdue: 0 });
@@ -107,7 +109,7 @@ const StatisticsContent = () => {
         <div className="col-md-6">
           <div className="card shadow-sm border-0 rounded-2 h-100">
             <div className="card-header bg-white border-bottom py-3">
-              <h6 className="mb-0 text-dark fw-bold">🏆 Top sách mượn nhiều</h6>
+              <h6 className="mb-0 text-dark fw-bold"><FontAwesomeIcon icon={faTrophy}/> Top sách mượn nhiều</h6>
             </div>
             <div className="card-body p-0">
               <table className="table mb-0 align-middle">
@@ -149,7 +151,7 @@ const StatisticsContent = () => {
         <div className="col-md-6">
           <div className="card shadow-sm border-0 rounded-2 h-100">
             <div className="card-header bg-white border-bottom py-3">
-              <h6 className="mb-0 text-danger fw-bold">⚠️ Phiếu quá hạn cần xử lý</h6>
+              <h6 className="mb-0 text-danger fw-bold"><FontAwesomeIcon icon={faTriangleExclamation}/> Phiếu quá hạn cần xử lý</h6>
             </div>
             <div className="card-body p-0">
               <table className="table mb-0 align-middle">

@@ -137,7 +137,7 @@ export const ProfileForm = ({
               <div className="mb-3">
                 <label className="form-label small text-secondary">Avatar URL</label>
                 <input
-                  type="url"
+                  type="text"
                   className="form-control"
                   name="avatarUrl"
                   value={profileData.avatarUrl}

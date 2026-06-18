@@ -71,7 +71,7 @@ export default function LoginPage() {
           navigate('/dashboard/staff');
         }
         else { 
-          navigate('/reader/profile');
+          navigate('/dashboard/borrow');
         }
 
 
@@ -84,21 +84,25 @@ export default function LoginPage() {
       case 400:
         // Lỗi validate input (email sai format, password < 6 ký tự...)
         setError({ general: err?.message || 'Thông tin đăng nhập không hợp lệ!' });
+        showToast(err?.message || 'Thông tin đăng nhập không hợp lệ!', 'DANGER');
         break;
       case 401:
         setError({ general: err?.message || 'Email hoặc mật khẩu không đúng!' });
+        showToast(err?.message || 'Email hoặc mật khẩu không đúng!', 'DANGER');
         break;
       case 403:
         setError({ general: err?.message || 'Tài khoản đã bị khóa!' });
+        showToast(err?.message || 'Tài khoản đã bị khóa!', 'DANGER');
         break;
       case 0:
         setError({ general: err?.message || 'Không thể kết nối đến máy chủ!' });
+        showToast(err?.message || 'Không thể kết nối đến máy chủ!', 'DANGER');
         break;
       default:
         setError({ general: err?.message || 'Đăng nhập thất bại, vui lòng thử lại sau!' });
-      
-      showToast(err?.message || 'Đăng nhập thất bại!', 'DANGER'); // Hiện lỗi bằng Toast
-  }
+        showToast(err?.message || 'Đăng nhập thất bại!', 'DANGER'); // Hiện lỗi bằng Toast
+        break;
+      }
     } finally {
       setIsSubmitting(false);
     }

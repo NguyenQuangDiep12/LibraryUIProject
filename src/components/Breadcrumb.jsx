@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Breadcrumb({ items = [] }) {
+  if (!items || items.length === 0) return null;
   return (
     <nav aria-label="breadcrumb">
       <style>{`

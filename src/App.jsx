@@ -9,9 +9,10 @@ import DetailBookPage from './pages/DetailBookPage';
 import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ComplaintPolicy from './pages/ComplainPolicy';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 // Lazy load feature containers for clean separation
-const StatisticsContent = lazy(() => import('./components/Statistics/StatisticsContent'));
+const StatisticsContent = lazy(() => import('./components/StatisticsContent'));
 const BorrowContainer = lazy(() => import('./features/borrow/BorrowContainer'));
 const BookContainer = lazy(() => import('./features/books/BookContainer'));
 const CategoryContainer = lazy(() => import('./features/categories/CategoryContainer'));
@@ -38,7 +39,7 @@ function App() {
         <Route path="/complain" element={<ComplaintPolicy />} />
         
         {/* Protected Dashboard Layout and Subroutes */}
-        <Route path="/dashboard" element={<DashboardPage />}>
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>}>
           <Route index element={<StatisticsContent />} />
           <Route path="statistics" element={<StatisticsContent />} />
           <Route path="borrow" element={<BorrowContainer />} />

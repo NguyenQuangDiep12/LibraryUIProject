@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
@@ -10,17 +10,21 @@ const DashboardPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const year = new Date().getFullYear();
+  const hasRedirected = useRef(false);
 
   useEffect(() => {
     // If user accesses the base dashboard path, redirect to their authorized default tab
     if (location.pathname === '/dashboard' || location.pathname === '/dashboard/') {
+      if (hasRedirected.current) return;
       if (isAdmin) {
         navigate('/dashboard/statistics', { replace: true });
       } else if (isStaff || isReader) {
         navigate('/dashboard/borrow', { replace: true });
       }
+      hasRedirected.current = true;
     }
-  }, [location.pathname, role, isAdmin, isStaff, isReader, navigate]);
+  }, [location.pathname, isAdmin, isStaff, isReader, navigate]);
+
 
   return (
     <div className="d-flex vh-100 bg-light">

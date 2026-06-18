@@ -45,7 +45,7 @@ export const StaffContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải danh sách nhân viên');
+      showToast(err.message || 'Lỗi tải danh sách nhân viên', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -79,16 +79,16 @@ export const StaffContainer = () => {
       if (modalMode === 'add') {
         // userApi.addStaff calls POST /api/users/staff
         await userApi.addStaff(formData);
-        showToast('success', 'Tạo tài khoản nhân viên thành công');
+        showToast('Tạo tài khoản nhân viên thành công', 'SUCCESS');
       } else {
         const id = formModal.modalData.id || formModal.modalData.Id;
         await userApi.update(id, formData);
-        showToast('success', 'Cập nhật thông tin nhân viên thành công');
+        showToast('Cập nhật thông tin nhân viên thành công', 'SUCCESS');
       }
       formModal.closeModal();
       fetchStaffs();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi lưu thông tin nhân viên');
+      showToast(err.message || 'Lỗi lưu thông tin nhân viên', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -103,10 +103,10 @@ export const StaffContainer = () => {
     try {
       const id = row.id || row.Id;
       await userApi.updateStatus(id, nextStatus);
-      showToast('success', 'Cập nhật trạng thái tài khoản nhân viên thành công');
+      showToast('Cập nhật trạng thái tài khoản nhân viên thành công', 'SUCCESS');
       fetchStaffs();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi cập nhật trạng thái tài khoản');
+      showToast(err.message || 'Lỗi cập nhật trạng thái tài khoản', 'DANGER');
     }
   };
 

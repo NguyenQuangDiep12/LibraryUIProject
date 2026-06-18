@@ -65,10 +65,10 @@ export default function DetailBookPage() {
           // Dùng bookApi.getAll thay vì getBooks theo đúng setting của bạn
           const [authorRes, categoryRes] = await Promise.all([
             firstAuthorId 
-              ? bookApi.getAll({ AuthorId: firstAuthorId, pageSize: 6, pageIndex: 1 }) 
+              ? bookApi.getAll({ AuthorId: firstAuthorId, PageSize: 6, Page: 1 }) 
               : Promise.resolve(null),
             firstCategoryId 
-              ? bookApi.getAll({ CategoryId: firstCategoryId, pageSize: 6, pageIndex: 1 }) 
+              ? bookApi.getAll({ CategoryId: firstCategoryId, PageSize: 6, Page: 1 }) 
               : Promise.resolve(null)
           ]);
 

@@ -11,6 +11,7 @@ export const BookFormModal = ({
   onCancel,
   isLoading = false,
 }) => {
+  const [authorSearch, setAuthorSearch] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     isbn: '',
@@ -62,6 +63,11 @@ export const BookFormModal = ({
       return { ...prev, [field]: newList };
     });
   };
+
+  const filteredAuthors = authors.filter((a) => {
+    const name = a.name || a.Name || '';
+    return name.toLowerCase().includes(authorSearch.toLowerCase());
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -188,8 +194,15 @@ export const BookFormModal = ({
                   {/* Authors checkboxes */}
                   <div className="col-md-6">
                     <label className="form-label text-dark fw-medium small d-block">Tác giả <span className="text-danger">*</span></label>
+                    <input 
+                      type="text" 
+                      className="form-control form-control-sm mb-2" 
+                      placeholder="Tìm kiếm tác giả..." 
+                      value={authorSearch}
+                      onChange={(e) => setAuthorSearch(e.target.value)}
+                    />
                     <div className="border rounded p-3 bg-light" style={{ maxHeight: '150px', overflowY: 'auto' }}>
-                      {authors.map((a) => {
+                      {filteredAuthors.map((a) => {
                         const id = a.id || a.authorId;
                         const isChecked = formData.authorIds.includes(id);
                         return (

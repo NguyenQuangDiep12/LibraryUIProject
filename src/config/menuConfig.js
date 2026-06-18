@@ -1,81 +1,89 @@
+import { faBell, faBookmark, faBuilding, faChartBar, faHouse, faUser } from '@fortawesome/free-regular-svg-icons';
 import { Role } from '../constants/constants';
+import { faArrowsRotate, faBook, faClockRotateLeft, faPenNib, faTags, faTriangleExclamation, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
 export const MENU_ITEMS = [
   {
     path: '/',
-    icon: '🏠',
+    icon: faHouse,
     label: 'Home',
     allowedRoles: [Role.ADMIN, Role.STAFF, Role.READER],
   },
   {
     path: '/dashboard/statistics',
-    icon: '📊',
+    icon: faChartBar,
     label: 'Thống kê',
     allowedRoles: [Role.ADMIN],
   },
   {
     path: '/dashboard/borrow',
-    icon: '🔄',
+    icon: faArrowsRotate,
     label: 'Mượn / Trả',
-    allowedRoles: [Role.ADMIN, Role.STAFF, Role.READER],
+    allowedRoles: [Role.ADMIN, Role.STAFF],
+  },
+  {
+    path: '/dashboard/borrow',
+    icon: faClockRotateLeft,
+    label: 'Lịch sử mượn',
+    allowedRoles: [Role.READER],
   },
   {
     path: '/dashboard/books',
-    icon: '📖',
+    icon: faBook,
     label: 'Quản lý sách',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/category',
-    icon: '🏷️',
+    icon: faTags,
     label: 'Danh mục',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/author',
-    icon: '✏️',
+    icon: faPenNib,
     label: 'Tác giả',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/publisher',
-    icon: '🏢',
+    icon: faBuilding,
     label: 'Nhà xuất bản',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/reader',
-    icon: '👥',
+    icon: faUsers,
     label: 'Độc giả',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/fine',
-    icon: '🚫',
+    icon: faTriangleExclamation,
     label: 'Vi phạm',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/reservation',
-    icon: '🔖',
+    icon: faBookmark,
     label: 'Đặt trước',
     allowedRoles: [Role.ADMIN, Role.STAFF],
   },
   {
     path: '/dashboard/notifications',
-    icon: '🔔',
+    icon: faBell,
     label: 'Thông báo',
     allowedRoles: [Role.READER],
   },
   {
     path: '/dashboard/staff',
-    icon: '🪪',
+    icon: faUserTie,
     label: 'Nhân viên',
     allowedRoles: [Role.ADMIN],
   },
   {
     path: '/dashboard/profile',
-    icon: '👤',
+    icon: faUser,
     label: 'Cá nhân',
     allowedRoles: [Role.ADMIN, Role.STAFF, Role.READER],
   },

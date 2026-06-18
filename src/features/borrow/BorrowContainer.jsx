@@ -63,7 +63,7 @@ export const BorrowContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải danh sách phiếu mượn');
+      showToast(err.message || 'Lỗi tải danh sách phiếu mượn', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -79,6 +79,7 @@ export const BorrowContainer = () => {
     setKeyword('');
     setReaderSearch('');
     setPage(1);
+    fetchBorrows();
   };
 
   const handleViewDetails = async (row) => {
@@ -88,7 +89,7 @@ export const BorrowContainer = () => {
       setModalMode('details');
       actionModal.openModal(res.data || res.Data);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải chi tiết phiếu mượn');
+      showToast(err.message || 'Lỗi tải chi tiết phiếu mượn', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -98,10 +99,10 @@ export const BorrowContainer = () => {
     if (!window.confirm('Bạn có chắc chắn muốn gửi yêu cầu gia hạn cho phiếu mượn này?')) return;
     try {
       await borrowApi.requestExtension(row.borrowId || row.BorrowId);
-      showToast('success', 'Gửi yêu cầu gia hạn thành công!');
+      showToast('Gửi yêu cầu gia hạn thành công!', 'SUCCESS');
       fetchBorrows();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi gửi yêu cầu gia hạn');
+      showToast(err.message || 'Lỗi gửi yêu cầu gia hạn', 'DANGER');
     }
   };
 
@@ -112,7 +113,7 @@ export const BorrowContainer = () => {
       setModalMode('return');
       actionModal.openModal(res.data || res.Data);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải chi tiết phiếu mượn');
+      showToast(err.message || 'Lỗi tải chi tiết phiếu mượn', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -129,18 +130,18 @@ export const BorrowContainer = () => {
       const recordId = actionModal.modalData?.borrowId || actionModal.modalData?.BorrowId;
       if (modalMode === 'create') {
         await borrowApi.create(payload);
-        showToast('success', 'Tạo phiếu mượn mới thành công');
+        showToast('Tạo phiếu mượn mới thành công', 'SUCCESS');
       } else if (modalMode === 'return') {
         await borrowApi.confirmReturn(recordId, payload);
-        showToast('success', 'Xác nhận trả sách thành công');
+        showToast('Xác nhận trả sách thành công', 'SUCCESS');
       } else if (modalMode === 'process_extension') {
         await borrowApi.extend(recordId, payload);
-        showToast('success', 'Xử lý yêu cầu gia hạn thành công');
+        showToast('Xử lý yêu cầu gia hạn thành công', 'SUCCESS');
       }
       actionModal.closeModal();
       fetchBorrows();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi thao tác trên phiếu mượn');
+      showToast(err.message || 'Lỗi thao tác trên phiếu mượn', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -151,11 +152,11 @@ export const BorrowContainer = () => {
     try {
       const recordId = cancelModal.modalData?.borrowId || cancelModal.modalData?.BorrowId;
       await borrowApi.cancel(recordId);
-      showToast('success', 'Hủy phiếu mượn thành công');
+      showToast('Hủy phiếu mượn thành công', 'SUCCESS');
       cancelModal.closeModal();
       fetchBorrows();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi hủy phiếu mượn');
+      showToast(err.message || 'Lỗi hủy phiếu mượn', 'DANGER');
     } finally {
       setActionLoading(false);
     }

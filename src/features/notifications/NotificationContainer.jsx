@@ -29,7 +29,7 @@ export const NotificationContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải thông báo');
+      showToast(err.message || 'Lỗi tải thông báo', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -40,17 +40,17 @@ export const NotificationContainer = () => {
       await notificationApi.readOne(id);
       fetchNotifications();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xử lý thông báo');
+      showToast(err.message || 'Lỗi xử lý thông báo', 'DANGER');
     }
   };
 
   const handleReadAll = async () => {
     try {
       await notificationApi.readAll();
-      showToast('success', 'Đã đọc toàn bộ thông báo');
+      showToast('Đã đọc toàn bộ thông báo', 'SUCCESS');
       fetchNotifications();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xử lý thông báo');
+      showToast(err.message || 'Lỗi xử lý thông báo', 'DANGER');
     }
   };
 
@@ -105,8 +105,16 @@ export const NotificationContainer = () => {
                   <button type="button" className="btn-close" onClick={detailModal.closeModal}></button>
                 </div>
                 <div className="modal-body text-secondary small">
-                  <p className="mb-3 whitespace-pre-wrap">{detailModal.modalData?.message || detailModal.modalData?.Message}</p>
+                  <p className="mb-3 whitespace-pre-wrap">{detailModal.modalData?.content || detailModal.modalData?.Content || detailModal.modalData?.message || detailModal.modalData?.Message}</p>
+                  
+                  {(detailModal.modalData?.reason || detailModal.modalData?.Reason || detailModal.modalData?.rejectionReason || detailModal.modalData?.RejectionReason || detailModal.modalData?.note || detailModal.modalData?.Note) && (
+                    <div className="alert alert-danger p-2 mb-3">
+                      <strong>Lý do từ chối:</strong> {detailModal.modalData?.reason || detailModal.modalData?.Reason || detailModal.modalData?.rejectionReason || detailModal.modalData?.RejectionReason || detailModal.modalData?.note || detailModal.modalData?.Note}
+                    </div>
+                  )}
+
                   <div className="text-muted text-end" style={{ fontSize: '0.75rem' }}>
+                    Trạng thái: {(detailModal.modalData?.isRead || detailModal.modalData?.IsRead) ? 'Đã đọc' : 'Chưa đọc'} <br/>
                     Thời gian: {detailModal.modalData?.createdAt ? new Date(detailModal.modalData.createdAt).toLocaleString('vi-VN') : '—'}
                   </div>
                 </div>

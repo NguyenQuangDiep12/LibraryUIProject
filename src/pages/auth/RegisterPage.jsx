@@ -80,7 +80,7 @@ export default function RegisterPage(){
     if(!validateForm()){
       return;
     }
-    setError(""); // reset error neu co du lieu
+    setError({}); // reset error neu co du lieu
     setIsSubmitting(true);
 
     try{
@@ -133,6 +133,7 @@ export default function RegisterPage(){
             name="fullName" 
             value={formData.fullName} 
             onChange={handleChange} 
+            className="form-control"
           />
 
           {error.fullName && ( <div className="text-danger small">{error.fullName}</div>)}
@@ -144,6 +145,7 @@ export default function RegisterPage(){
             name="email" 
             value={formData.email} 
             onChange={handleChange} 
+            className="form-control"
           />
 
           {error.email && ( <div className="text-danger small">{error.email}</div>)}
@@ -155,6 +157,7 @@ export default function RegisterPage(){
             name="phone" 
             value={formData.phone} 
             onChange={handleChange} 
+            className="form-control"
           />
 
           {error.phone && ( <div className="text-danger small">{error.phone}</div>)}
@@ -167,7 +170,7 @@ export default function RegisterPage(){
               name="password" 
               value={formData.password} 
               onChange={handleChange} 
-              className="w-100"
+              className="form-control w-100"
             />
             
             {error.password && ( <div className="text-danger small">{error.password}</div>)}
@@ -194,6 +197,7 @@ export default function RegisterPage(){
             name="confirmPassword" 
             value={formData.confirmPassword} 
             onChange={handleChange} 
+            className="form-control"
           />
 
           {error.confirmPassword && ( <div className="text-danger small">{error.confirmPassword}</div>)}

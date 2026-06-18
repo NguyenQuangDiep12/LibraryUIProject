@@ -26,7 +26,7 @@ export const BookCopiesModal = ({ isOpen, book, onCancel }) => {
       const res = await bookCopyApi.getAll({ BookId: book.bookId || book.BookId });
       setCopies(res.data?.items || res.Data?.Items || []);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải bản sao');
+      showToast(err.message || 'Lỗi tải bản sao', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -40,11 +40,11 @@ export const BookCopiesModal = ({ isOpen, book, onCancel }) => {
         quantity: Number(addForm.quantity),
         shelfLocation: addForm.shelfLocation.trim() || null,
       });
-      showToast('success', 'Thêm bản sao thành công');
+      showToast('Thêm bản sao thành công', 'SUCCESS');
       setAddForm({ quantity: 1, shelfLocation: '' });
       fetchCopies();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi thêm bản sao');
+      showToast(err.message || 'Lỗi thêm bản sao', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -53,10 +53,10 @@ export const BookCopiesModal = ({ isOpen, book, onCancel }) => {
   const handleUpdateStatus = async (copyId, status) => {
     try {
       await bookCopyApi.updateStatus(copyId, status);
-      showToast('success', 'Cập nhật trạng thái bản sao thành công');
+      showToast('Cập nhật trạng thái bản sao thành công', 'SUCCESS');
       fetchCopies();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi cập nhật trạng thái');
+      showToast(err.message || 'Lỗi cập nhật trạng thái', 'DANGER');
     }
   };
 
@@ -64,10 +64,10 @@ export const BookCopiesModal = ({ isOpen, book, onCancel }) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa bản sao này?')) return;
     try {
       await apiClient.delete(`/book-copies/${copyId}`);
-      showToast('success', 'Xóa bản sao thành công');
+      showToast('Xóa bản sao thành công', 'SUCCESS');
       fetchCopies();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xóa bản sao');
+      showToast(err.message || 'Lỗi xóa bản sao', 'DANGER');
     }
   };
 
@@ -193,12 +193,6 @@ export const BookCopiesModal = ({ isOpen, book, onCancel }) => {
                   Đầu sách này chưa có bản sao vật lý nào.
                 </div>
               )}
-            </div>
-
-            <div className="modal-footer border-top">
-              <button type="button" className="btn btn-sm btn-light px-3" onClick={onCancel} disabled={actionLoading}>
-                Đóng
-              </button>
             </div>
           </div>
         </div>

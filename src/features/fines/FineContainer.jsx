@@ -34,7 +34,7 @@ export const FineContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải phiếu phạt');
+      showToast(err.message || 'Lỗi tải phiếu phạt', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -44,11 +44,11 @@ export const FineContainer = () => {
     setActionLoading(true);
     try {
       await fineApi.create(formData);
-      showToast('success', 'Tạo phiếu phạt thành công');
+      showToast('Tạo phiếu phạt thành công', 'SUCCESS');
       formModal.closeModal();
       fetchFines();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tạo phiếu phạt');
+      showToast(err.message || 'Lỗi tạo phiếu phạt', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -59,10 +59,10 @@ export const FineContainer = () => {
     try {
       const id = row.fineId || row.FineId;
       await fineApi.pay(id);
-      showToast('success', 'Thu tiền phạt thành công');
+      showToast('Thu tiền phạt thành công', 'SUCCESS');
       fetchFines();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi thu tiền phạt');
+      showToast(err.message || 'Lỗi thu tiền phạt', 'DANGER');
     }
   };
 
@@ -71,7 +71,7 @@ export const FineContainer = () => {
       <div className="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
         <h6 className="mb-0 text-dark fw-bold" style={{ fontSize: '1.1rem' }}>Danh sách phiếu phạt vi phạm</h6>
         {(isAdmin || isStaff) && (
-          <button className="btn btn-primary d-flex align-items-center gap-1 px-3 py-1.5 rounded-1" onClick={formModal.openModal}>
+          <button className="btn btn-primary d-flex align-items-center gap-1 px-3 py-1.5 rounded-1" onClick={() => formModal.openModal(null)}>
             <span className="fs-5 lh-1">+</span> Tạo phạt
           </button>
         )}

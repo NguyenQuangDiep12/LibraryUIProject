@@ -21,7 +21,7 @@ export const bookCopyApi = {
   getById: (id) => apiClient.get(`/book-copies/${id}`),
   create: (bookId, data) => apiClient.post(`/book-copies/book/${bookId}`, data),
   update: (id, data) => apiClient.put(`/book-copies/${id}`, data),
-  updateStatus: (id, status) => apiClient.patch(`/book-copies/${id}/status`, { status }),
+  updateStatus: (id, status) => apiClient.patch(`/book-copies/${id}/status?status=${status}`),
 };
 
 export const borrowApi = {

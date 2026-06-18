@@ -26,9 +26,10 @@ export const AuthorContainer = () => {
     setLoading(true);
     try {
       const res = await authorApi.getAll();
-      setAuthors(res.data || res.Data || []);
+      const data = res.data || res.Data;
+      setAuthors(data?.items || data?.Items || (Array.isArray(data) ? data : []));
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải tác giả');
+      showToast(err.message || 'Lỗi tải tác giả', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -49,16 +50,16 @@ export const AuthorContainer = () => {
     try {
       if (modalMode === 'add') {
         await authorApi.create(formData);
-        showToast('success', 'Thêm tác giả mới thành công');
+        showToast('Thêm tác giả mới thành công', 'SUCCESS');
       } else {
         const id = formModal.modalData.id || formModal.modalData.authorId || formModal.modalData.AuthorId;
         await authorApi.update(id, formData);
-        showToast('success', 'Cập nhật thông tin tác giả thành công');
+        showToast('Cập nhật thông tin tác giả thành công', 'SUCCESS');
       }
       formModal.closeModal();
       fetchAuthors();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi lưu thông tin tác giả');
+      showToast(err.message || 'Lỗi lưu thông tin tác giả', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -69,11 +70,11 @@ export const AuthorContainer = () => {
     setActionLoading(true);
     try {
       await authorApi.delete(id);
-      showToast('success', 'Xóa tác giả thành công');
+      showToast('Xóa tác giả thành công', 'SUCCESS');
       deleteModal.closeModal();
       fetchAuthors();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xóa tác giả');
+      showToast(err.message || 'Lỗi xóa tác giả', 'DANGER');
     } finally {
       setActionLoading(false);
     }

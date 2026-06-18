@@ -47,7 +47,8 @@ export const BorrowActionModal = ({
       .split(',')
       .map((x) => x.trim())
       .filter((x) => x !== '')
-      .map(Number);
+      .map(Number)
+      .filter((n) => !isNaN(n) && n > 0);
 
     onSave({
       readerId: Number(createForm.readerId),

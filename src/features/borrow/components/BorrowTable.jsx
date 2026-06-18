@@ -2,6 +2,8 @@ import React from 'react';
 import DataTable from '../../../components/common/DataTable';
 import StatusBadge from '../../../components/common/StatusBadge';
 import { useRole } from '../../../hooks/useRole';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 export const BorrowTable = ({
   borrows,
@@ -129,10 +131,7 @@ export const BorrowTable = ({
               onClick={() => onViewDetails(row)}
               style={{ width: '28px', height: '28px' }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
+              <FontAwesomeIcon icon={faEye}/>
             </button>
 
             {/* Reader Action: Request Extension */}
@@ -176,10 +175,7 @@ export const BorrowTable = ({
                 onClick={() => onCancelRecord(row)}
                 style={{ width: '28px', height: '28px' }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <FontAwesomeIcon icon={faTrashCan}/>
               </button>
             )}
           </div>

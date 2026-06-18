@@ -30,7 +30,7 @@ export const DataTable = ({ columns, data, isLoading, emptyMessage = 'Không có
             </tr>
           ) : data && data.length > 0 ? (
             data.map((row, rowIdx) => (
-              <tr key={row.id || row.userId || row.bookId || row.reservationId || row.borrowId || row.fineId || rowIdx}>
+              <tr key={row.id ?? row.Id ?? row.userId ?? row.UserId ?? row.bookId ?? row.BookId ?? row.borrowId ?? row.BorrowId ?? row.fineId ?? row.FineId ?? row.reservationId ?? row.ReservationId ?? rowIdx}>
                 {columns.map((col, colIdx) => (
                   <td
                     key={col.key || colIdx}

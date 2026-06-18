@@ -26,9 +26,10 @@ export const CategoryContainer = () => {
     setLoading(true);
     try {
       const res = await categoryApi.getAll();
-      setCategories(res.data || res.Data || []);
+      const data = res.data || res.Data;
+      setCategories(data?.items || data?.Items || (Array.isArray(data) ? data : []));
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải danh mục');
+      showToast(err.message || 'Lỗi tải danh mục', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -49,16 +50,16 @@ export const CategoryContainer = () => {
     try {
       if (modalMode === 'add') {
         await categoryApi.create(formData);
-        showToast('success', 'Thêm danh mục mới thành công');
+        showToast('Thêm danh mục mới thành công', 'SUCCESS');
       } else {
         const id = formModal.modalData.id || formModal.modalData.categoryId || formModal.modalData.CategoryId;
         await categoryApi.update(id, formData);
-        showToast('success', 'Cập nhật danh mục thành công');
+        showToast('Cập nhật danh mục thành công', 'SUCCESS');
       }
       formModal.closeModal();
       fetchCategories();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi lưu danh mục');
+      showToast(err.message || 'Lỗi lưu danh mục', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -69,11 +70,11 @@ export const CategoryContainer = () => {
     setActionLoading(true);
     try {
       await categoryApi.delete(id);
-      showToast('success', 'Xóa danh mục thành công');
+      showToast('Xóa danh mục thành công', 'SUCCESS');
       deleteModal.closeModal();
       fetchCategories();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi xóa danh mục');
+      showToast(err.message || 'Lỗi xóa danh mục', 'DANGER');
     } finally {
       setActionLoading(false);
     }

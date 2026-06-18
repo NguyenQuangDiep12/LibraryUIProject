@@ -15,7 +15,7 @@ export const ConfirmModal = ({
       {/* Backdrop */}
       <div
         className="modal-backdrop fade show"
-        style={{ zIndex: 1050 }}
+        style={{ zIndex: 1040 }}
         onClick={onCancel}
       ></div>
 
@@ -23,7 +23,7 @@ export const ConfirmModal = ({
       <div
         className="modal fade show d-block"
         tabIndex="-1"
-        style={{ zIndex: 1055, top: '20%' }}
+        style={{ zIndex: 1045, top: '20%' }}
         role="dialog"
       >
         <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '400px' }}>

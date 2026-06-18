@@ -34,7 +34,7 @@ export const ReservationContainer = () => {
       setTotalPages(data.totalPages || data.TotalPages || 1);
       setTotalRecords(data.totalRecords || data.TotalRecords || 0);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải đặt trước');
+      showToast(err.message || 'Lỗi tải đặt trước', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -44,11 +44,11 @@ export const ReservationContainer = () => {
     setActionLoading(true);
     try {
       await reservationApi.create(formData);
-      showToast('success', 'Tạo phiếu đặt trước thành công');
+      showToast('Tạo phiếu đặt trước thành công', 'SUCCESS');
       formModal.closeModal();
       fetchReservations();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi đặt trước sách');
+      showToast(err.message || 'Lỗi đặt trước sách', 'DANGER');
     } finally {
       setActionLoading(false);
     }
@@ -59,10 +59,10 @@ export const ReservationContainer = () => {
     try {
       const id = row.reservationId || row.ReservationId;
       await reservationApi.complete(id);
-      showToast('success', 'Nhận sách thành công. Đã tự động tạo phiếu mượn!');
+      showToast('Nhận sách thành công. Đã tự động tạo phiếu mượn!', 'SUCCESS');
       fetchReservations();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi nhận sách đặt trước');
+      showToast(err.message || 'Lỗi nhận sách đặt trước', 'DANGER');
     }
   };
 
@@ -71,10 +71,10 @@ export const ReservationContainer = () => {
     try {
       const id = row.reservationId || row.ReservationId;
       await reservationApi.cancel(id);
-      showToast('success', 'Hủy đặt trước thành công');
+      showToast('Hủy đặt trước thành công', 'SUCCESS');
       fetchReservations();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi hủy đặt trước');
+      showToast(err.message || 'Lỗi hủy đặt trước', 'DANGER');
     }
   };
 
@@ -83,7 +83,7 @@ export const ReservationContainer = () => {
       <div className="card-header bg-white d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
         <h6 className="mb-0 text-dark fw-bold" style={{ fontSize: '1.1rem' }}>Danh sách đặt trước sách</h6>
         {(isAdmin || isStaff) && (
-          <button className="btn btn-primary d-flex align-items-center gap-1 px-3 py-1.5 rounded-1" onClick={formModal.openModal}>
+          <button className="btn btn-primary d-flex align-items-center gap-1 px-3 py-1.5 rounded-1" onClick={() => formModal.openModal(null)}>
             <span className="fs-5 lh-1">+</span> Tạo đặt trước
           </button>
         )}

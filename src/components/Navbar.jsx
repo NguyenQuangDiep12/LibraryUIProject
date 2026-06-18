@@ -1,6 +1,11 @@
 import React from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket, faTrophy } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = ({ onToggleSidebar, user = { name: 'Nguyen Quang Diep', role: 'ADMIN' } }) => {
+const Navbar = ({ onToggleSidebar }) => {
+  const { userInfo, logout } = useAuth();
+  const user = userInfo || { name: 'Guest', role: '' };
   return (
     <nav className="navbar navbar-light bg-white border-bottom px-3 px-md-4 py-2">
       <div className="d-flex align-items-center justify-content-between w-100">
@@ -38,8 +43,11 @@ const Navbar = ({ onToggleSidebar, user = { name: 'Nguyen Quang Diep', role: 'AD
             style={{ width: '40px', height: '40px' }}
             aria-label="Đăng xuất"
             title="Đăng xuất"
+            onClick={logout}
           >
-            <span className="fs-5">🚪</span>
+            <span className="fs-5">
+              <FontAwesomeIcon icon={faRightFromBracket}/>
+            </span>
           </button>
         </div>
       </div>

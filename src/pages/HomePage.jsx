@@ -25,10 +25,12 @@ const CategoryBlock = ({ category }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchBooks = async (pageIndex) => {
       try {
         setLoading(true);
-        const res = await bookApi.getAll({ CategoryId: category.categoryId, PageNumber: pageIndex, PageSize: 6 });
+        const res = await bookApi.getAll({ CategoryId: category.categoryId, Page: pageIndex, PageSize: 6 });
+        if (!isMounted) return;
         const resData = getApiData(res);
         const success = res?.success ?? res?.Success;
 
@@ -46,14 +48,16 @@ const CategoryBlock = ({ category }) => {
           setHasMore(false);
         }
       } catch (error) {
+        if (!isMounted) return;
         console.error(`Lỗi lấy sách cho danh mục ${category.categoryName}:`, error);
         setHasMore(false);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchBooks(page);
+    return () => { isMounted = false; };
   }, [page, category.categoryId, category.categoryName]);
   if (books.length === 0 && !loading) return null;
 
@@ -120,7 +124,7 @@ export default function HomePage() {
     const fetchSpotlightBook = async () => {
       try {
         setLoadingSpotlight(true);
-        const listRes = await bookApi.getAll({ PageNumber: 1, PageSize: 1, SortBy: 'Popular' });
+        const listRes = await bookApi.getAll({ Page: 1, PageSize: 1, SortBy: 'Popular' });
         const listResData = getApiData(listRes);
         
         if ((listRes?.success ?? listRes?.Success) && listResData) {

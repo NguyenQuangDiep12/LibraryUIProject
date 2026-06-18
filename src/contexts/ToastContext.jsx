@@ -13,7 +13,7 @@ export const ToastProvider = ({ children }) => {
 
     // Ham dung de kich hoat toast 
     const showToast = useCallback((message, color = "SUCCESS", duration = 3000) => {
-        setToast({ show: true, message, color, duration});
+        setToast({ show: true, message, color: color.toUpperCase(), duration});
     }, []);
 
     // Ham an toast

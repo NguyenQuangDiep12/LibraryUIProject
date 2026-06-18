@@ -52,7 +52,7 @@ const BookSection = ({
         
         {/* Nút Xem tất cả ở góc phải (Chỉ hiện khi cuộn ngang) */}
         {layout === 'scroll' && (
-          <a href="#" className="text-decoration-none" style={{ color: 'var(--waka-primary)', fontSize: '0.9rem', fontWeight: '500' }}>
+          <a href="#" onClick={(e) => e.preventDefault()} className="text-decoration-none" style={{ color: 'var(--waka-primary)', fontSize: '0.9rem', fontWeight: '500' }}>
             Xem thêm &gt;
           </a>
         )}
@@ -73,7 +73,7 @@ const BookSection = ({
       {layout === 'grid' && hasMore && (
         <div className="text-center mt-4">
           <button 
-            onClick={onLoadMore} 
+            onClick={(e) => { e.preventDefault(); onLoadMore && onLoadMore(e); }} 
             disabled={loading}
             className="btn rounded-pill px-4 py-2"
             style={{ 

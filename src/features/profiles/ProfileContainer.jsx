@@ -28,7 +28,7 @@ export const ProfileContainer = () => {
       const res = await userApi.getById(Number(currentUserId));
       setProfile(res.data || res.Data);
     } catch (err) {
-      showToast('error', err.message || 'Lỗi tải hồ sơ cá nhân');
+      showToast(err.message || 'Lỗi tải hồ sơ cá nhân', 'DANGER');
     } finally {
       setLoading(false);
     }
@@ -38,7 +38,7 @@ export const ProfileContainer = () => {
     setUpdating(true);
     try {
       await userApi.updateMyProfile(formData);
-      showToast('success', 'Cập nhật thông tin cá nhân thành công');
+      showToast('Cập nhật thông tin cá nhân thành công', 'SUCCESS');
       
       // Sync local context state
       const updatedUser = { ...userInfo, fullName: formData.fullName };
@@ -46,7 +46,7 @@ export const ProfileContainer = () => {
       setUserInfo(updatedUser);
       loadProfile();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi cập nhật thông tin');
+      showToast(err.message || 'Lỗi cập nhật thông tin', 'DANGER');
     } finally {
       setUpdating(false);
     }
@@ -54,7 +54,7 @@ export const ProfileContainer = () => {
 
   const handleChangePassword = async (passData, resetFormCallback) => {
     if (passData.newPassword !== passData.confirmPassword) {
-      showToast('error', 'Mật khẩu xác nhận không khớp');
+      showToast('Mật khẩu xác nhận không khớp', 'DANGER');
       return;
     }
     setChangingPass(true);
@@ -64,10 +64,10 @@ export const ProfileContainer = () => {
         password: passData.newPassword,
         confirmPassword: passData.confirmPassword,
       });
-      showToast('success', 'Thay đổi mật khẩu thành công');
+      showToast('Thay đổi mật khẩu thành công', 'SUCCESS');
       if (resetFormCallback) resetFormCallback();
     } catch (err) {
-      showToast('error', err.message || 'Lỗi thay đổi mật khẩu');
+      showToast(err.message || 'Lỗi thay đổi mật khẩu', 'DANGER');
     } finally {
       setChangingPass(false);
     }
